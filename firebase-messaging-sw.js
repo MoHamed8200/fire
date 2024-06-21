@@ -8,10 +8,9 @@ const firebaseConfig = {
   projectId: "ikseer-e68b7",
   storageBucket: "ikseer-e68b7.appspot.com",
   messagingSenderId: "339514332634",
-  appId: "1:339514332634:web:1f58f91abe65df59475ce3",
-  measurementId: "G-4C2S8RV5PK"
+  appId: "1:339514332634:web:e48f8e758db58e5a475ce3",
+  measurementId: "G-H83FPQZBC4"
 };
-
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
