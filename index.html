@@ -6,17 +6,15 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-messaging.js"></script>
     <script>
         // Your web app's Firebase configuration
-        const firebaseConfig = {
-  		apiKey: "AIzaSyC4njacsC06CRlbeJ4oDtgzlHEAv6Wab_U",
-  		authDomain: "ikseer-e68b7.firebaseapp.com",
-  		projectId: "ikseer-e68b7",
-  		storageBucket: "ikseer-e68b7.appspot.com",
-  		messagingSenderId: "339514332634",
-  		appId: "1:339514332634:web:1f58f91abe65df59475ce3",
-  		measurementId: "G-4C2S8RV5PK"
-	};
-
-
+        var firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID",
+            measurementId: "YOUR_MEASUREMENT_ID"
+        };
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
@@ -66,6 +64,17 @@
 
             new Notification(notificationTitle, notificationOptions);
         });
+
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/firebase-messaging-sw.js')
+            .then((registration) => {
+                console.log('Service Worker registered with scope:', registration.scope);
+                messaging.useServiceWorker(registration);
+            }).catch((err) => {
+                console.log('Service Worker registration failed:', err);
+            });
+        }
     </script>
 </head>
 <body>
@@ -73,4 +82,3 @@
     <button id="subscribe" onclick="requestPermissionAndGetToken()">Subscribe to Notifications</button>
 </body>
 </html>
-
