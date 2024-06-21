@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Notification Demo</title>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-messaging.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+  		apiKey: "AIzaSyC4njacsC06CRlbeJ4oDtgzlHEAv6Wab_U",
+  		authDomain: "ikseer-e68b7.firebaseapp.com",
+  		projectId: "ikseer-e68b7",
+  		storageBucket: "ikseer-e68b7.appspot.com",
+  		messagingSenderId: "339514332634",
+  		appId: "1:339514332634:web:1f58f91abe65df59475ce3",
+  		measurementId: "G-4C2S8RV5PK"
+	};
+
+
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Retrieve Firebase Messaging object.
+        const messaging = firebase.messaging();
+
+        // Function to request notification permission and get the token
+        function requestPermissionAndGetToken() {
+            messaging.requestPermission()
+            .then(() => {
+                console.log('Notification permission granted.');
+                return messaging.getToken();
+            })
+            .then((token) => {
+                console.log('Device token:', token);
+                // Send the token to your Django backend
+                fetch('http://localhost:8000/send-token/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ token: token }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            })
+            .catch((err) => {
+                console.log('Unable to get permission to notify.', err);
+            });
+        }
+
+        // Handle incoming messages
+        messaging.onMessage((payload) => {
+            console.log('Message received. ', payload);
+            // Customize notification here
+            const notificationTitle = payload.notification.title;
+            const notificationOptions = {
+                body: payload.notification.body,
+                icon: payload.notification.icon
+            };
+
+            new Notification(notificationTitle, notificationOptions);
+        });
+    </script>
+</head>
+<body>
+    <h1>Firebase Notification Demo</h1>
+    <button id="subscribe" onclick="requestPermissionAndGetToken()">Subscribe to Notifications</button>
+</body>
+</html>
+
