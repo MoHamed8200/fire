@@ -1,3 +1,5 @@
+importScripts('https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/8.6.1/firebase-messaging.js');
 // Replace placeholders with your actual Firebase project configuration
 const firebaseConfig = {
   apiKey: "AIzaSyC4njacsC06CRlbeJ4oDtgzlHEAv6Wab_U",
